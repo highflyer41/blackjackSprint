@@ -7,56 +7,63 @@ import java.util.*;
  */
 public class Deck
 {
-    private Card[] cards;
-    private final int SIZE = 52;
-    private final String[] SUITS = {"Spades","Hearts","Clubs","Diamonds"};
-    private final String[] FACES = {"Ace", "2", "3","4","5","6","7","8","9","10",
-                                    "Jack","Queen","King"};
-    private final int[] VALUES = {1,2,3,4,5,6,7,8,9,10, 10, 10, 10};
+    private ArrayList<Card> deck;
+    private int topCardPos;
 
     public Deck()
     {
-        cards = new Card[SIZE];
-        int b= 0;
-        for(int m = 0; m < 4; m++)
-        {
-            for(int k = 0; k < 13; k++)
-            {
-                cards[b] =  new Card(FACES[k],SUITS[m],VALUES[k]);
-                b++;
+        this.deck = new ArrayList<>();
+        populateDeck();
+        shuffle();
+    }
+
+    public void populateDeck() {
+        for(Suits suit : Suits.values()){
+            for(Values value : Values.values()) {
+                deck.add(new Card(suit, value));
             }
         }
-        
-        shuffle();
     }
 
     public void shuffle()
     {
         Random r = new Random();
         Card temp;
-        for(int k = 0; k < cards.length; k++)
+        for(int k = 0; k < deck.size(); k++)
         {
             int index = r.nextInt(52);
-            temp = cards[k];
-            cards[k] = cards[index];
-            cards[index] = temp;
+            temp = deck.get(k);
+            deck.set(k, deck.get(index));
+            deck.set(index, temp);
         }
+
+        topCardPos = 0;
     }
 
-    public Card getCard(int in)
-    {
-        return cards[in];
+    public void removeCard(int i) {
+        this.deck.remove(i);
     }
+
+    public Card getCard(int i) {
+        return this.deck.get(i);
+    }
+
+    public Card getTopCard() {
+        int index = topCardPos;
+        topCardPos++;
+        return this.getCard(index);
+    }    
 
     public String toString()
     {
-        StringBuilder output = new StringBuilder();
-        
-        for(int k = 0; k < cards.length; k++)
+        String output = "";
+        int i = 1;
+        for(Card ele : deck)
         {
-            output = output.append(cards[k]);
+            output += "\n" + i + ": " + ele;
+            i++;
         }
         
-        return output.toString();
+        return output;
     }
 }
