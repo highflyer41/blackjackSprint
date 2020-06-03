@@ -65,6 +65,10 @@ public class Player {
         
     }
 
+    public Card getCard(int i) {
+        return this.hand.get(i);
+    }
+
     public String showHand() {
         String output = "" + this.name + ":";
         int i = 1;
