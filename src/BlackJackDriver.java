@@ -58,7 +58,7 @@ public class BlackJackDriver
                         doubleDown = true;
                         System.out.print("\nWould you like to double down (y/n): ");
                         char choice = in.next().charAt(0);
-                        if(choice == 'y') {
+                        if(choice == 'y' && betAmount <= (player1.getFunds()/2)) {
                             betAmount *= 2;
                             System.out.println("DOUBLE DOWN! Bet amount is doubled. Player HITS!");
                             player1.addCard(deck.getTopCard());
@@ -74,6 +74,9 @@ public class BlackJackDriver
                             }
 
                             break;
+                        } else if(choice == 'y' && betAmount > (player1.getFunds()/2)) {
+                            System.out.println("You do not have enough money to double down!");
+                            continue;
                         } else {
                             continue;
                         }
