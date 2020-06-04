@@ -1,4 +1,10 @@
 import java.util.ArrayList;
+/**
+ * Player class holds properties that allows a player to play blackjack.
+ * 
+ * @author GoalDiggers
+ * @version 1.0.0
+ */
 
 public class Player {
     
@@ -6,9 +12,14 @@ public class Player {
     private int funds;
     private String name;
 
+    //Constructor
     public Player(String name) {
         this.name = name;
         funds = 200;
+    }
+
+    public ArrayList<Card> getHand() {
+        return this.hand;
     }
 
     public int getFunds() {
@@ -31,6 +42,7 @@ public class Player {
         this.hand.clear();
     }
 
+    //method to calculate the hand value and return it
     public int cardValue() {
         int total = 0;
         int totalAces = 0;
@@ -53,6 +65,7 @@ public class Player {
             }
         }
 
+        //calculate the value of aces bases on hand total
         for(int i = 0; i < totalAces; i++) {
             if(total > 10) {
                 total += 1;
@@ -69,6 +82,7 @@ public class Player {
         return this.hand.get(i);
     }
 
+    //display hand method
     public String showHand() {
         String output = "" + this.name + ":";
         //int i = 1;

@@ -1,8 +1,8 @@
 import java.util.*;
 /**
- * Write a description of class Deck here.
+ * This class holds properties to define a deck of cards.
  *
- * @author Meng Yang
+ * @author GoalDiggers
  * @version 1.0.0
  */
 public class Deck
@@ -10,6 +10,7 @@ public class Deck
     private ArrayList<Card> deck;
     private int topCardPos;
 
+    //Constructor
     public Deck()
     {
         this.deck = new ArrayList<>();
@@ -17,6 +18,7 @@ public class Deck
         shuffle();
     }
 
+    //generates cards using enums to fill the deck array
     public void populateDeck() {
         for(Suits suit : Suits.values()){
             for(Values value : Values.values()) {
@@ -25,6 +27,7 @@ public class Deck
         }
     }
 
+    //shuffles the deck using random selection sort
     public void shuffle()
     {
         Random r = new Random();
@@ -48,6 +51,7 @@ public class Deck
         return this.deck.get(i);
     }
 
+    //gets the card from the top of the deck
     public Card getTopCard() {
         int index = topCardPos;
         topCardPos++;
