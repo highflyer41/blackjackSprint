@@ -71,11 +71,11 @@ public class Player {
 
     public String showHand() {
         String output = "" + this.name + ":";
-        int i = 1;
+        //int i = 1;
         for(Card ele : hand)
         {
-            output += "\n" + i + ": " + ele;
-            i++;
+            output += "\n\t" + ele;
+            //i++;
         }
         
         return output;

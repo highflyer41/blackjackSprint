@@ -33,81 +33,87 @@ public class BlackJackDriver
             player1.addCard(deck.getTopCard());
             dealer.addCard(deck.getTopCard());
 
-            System.out.println(player1.showHand());
-            System.out.println("Player Hand Total Value: " + player1.cardValue());
-            System.out.println("\nDealer's Hand: \n" + "1: " + dealer.getCard(0).toString() + "\n2: --HIDDEN CARD--");
-            System.out.println("Dealer Hand Total Value: --HIDDEN--" );
+            System.out.println("\n" + player1.showHand());
+            System.out.println("\tPlayer Hand Total Value: " + player1.cardValue());
+            System.out.println("\nDealer's Hand: \n\t" + dealer.getCard(0).toString() + "\n\t--HIDDEN CARD--");
+            System.out.println("\tDealer Hand Total Value: --HIDDEN--" );
 
             do {
                 if(player1.cardValue() == 21) {
                     isBlackjack = true;
-                    System.out.println(player1.showHand());
-                    System.out.println("BLACKJACK!\n");
-                } else if(!doubleDown) {
-                    System.out.print("Would you like to double down (y/n): ");
-                    char choice1 = in.next().charAt(0);
-                    if(choice1 == 'y'){
+                    System.out.println("\n" + player1.showHand());
+                    System.out.println("\tBLACKJACK!\n");
+                } else {
+                    if(!doubleDown) {
                         doubleDown = true;
-                        betAmount *= 2;
-                        System.out.println("DOUBLE DOWN! Bet amount is doubled. Player HITS!");
-                        player1.addCard(deck.getTopCard());
-                        System.out.println(player1.showHand());
-                        System.out.println("Player Hand Total: " + player1.cardValue());
-                        if(player1.cardValue() > 21) {
-                            playerBust = true;
-                            System.out.println("Player BUST!---------------------\n");
+                        System.out.print("\nWould you like to double down (y/n): ");
+                        char choice = in.next().charAt(0);
+                        if(choice == 'y') {
+                            betAmount *= 2;
+                            System.out.println("DOUBLE DOWN! Bet amount is doubled. Player HITS!");
+                            player1.addCard(deck.getTopCard());
+                            System.out.println("\n" + player1.showHand());
+                            System.out.println("\tPlayer Hand Total Value: " + player1.cardValue());
+                            if(player1.cardValue() > 21) {
+                                playerBust = true;
+                                System.out.println("Player BUST!---------------------\n");
+                                break;
+                            } else if (player1.cardValue() == 21) {
+                                isBlackjack = true;
+                                System.out.println("\tBLACKJACK!\n");
+                            }
+
                             break;
-                        } else if (player1.cardValue() == 21) {
-                            isBlackjack = true;
-                            System.out.println("BLACKJACK!\n");
-                        }
-                    }
-                } else if(doubleDown) {
-                    System.out.print("\nWould you like to hit (y/n): ");
-                    char choice = in.next().charAt(0);
-                    if(choice == 'y') {
-                        player1.addCard(deck.getTopCard());
-                        System.out.println(player1.showHand());
-                        System.out.println("Player Hand Total: " + player1.cardValue());
-                        if(player1.cardValue() > 21) {
-                            playerBust = true;
-                            System.out.println("Player BUST!---------------------\n");
-                            break;
-                        } else if (player1.cardValue() == 21) {
-                            isBlackjack = true;
-                            System.out.println("BLACKJACK!\n");
+                        } else {
+                            continue;
                         }
                     } else {
-                        break;
+                        System.out.print("Would you like to hit (y/n): ");
+                        char choice = in.next().charAt(0);
+                        if(choice == 'y') {
+                            player1.addCard(deck.getTopCard());
+                            System.out.println("\n" + player1.showHand());
+                            System.out.println("\tPlayer Hand Total: " + player1.cardValue());
+                            if(player1.cardValue() > 21) {
+                                playerBust = true;
+                                System.out.println("Player BUST!---------------------\n");
+                                break;
+                            } else if (player1.cardValue() == 21) {
+                                isBlackjack = true;
+                                System.out.println("\tBLACKJACK!\n");
+                            }
+                        } else {
+                            break;
+                        }
                     }
                 } 
-            } while (!isBlackjack);
+            } while (!isBlackjack); //Player turn loop
 
             do {
                 if(dealer.cardValue() == 21) {
                     isBlackjack = true;
-                    System.out.println(dealer.showHand());
-                    System.out.println("BLACKJACK!\n");
+                    System.out.println("\n" + dealer.showHand());
+                    System.out.println("\tBLACKJACK!\n");
                 } else if(dealer.cardValue() < 17) {
-                    System.out.println("Dealer HITS!");
-                    
+                    System.out.println("\nDealer HITS!");
                     dealer.addCard(deck.getTopCard());
-                    System.out.println(dealer.showHand());
-                    System.out.println("Dealer Hand Total: " + dealer.cardValue());
+                    System.out.println("\n" + dealer.showHand());
+                    System.out.println("\tDealer Hand Total: " + dealer.cardValue());
                     if(dealer.cardValue() > 21) {
                         dealerBust = true;
                         System.out.println("Dealer BUST!---------------------\n");
                         break;
                     } else if (dealer.cardValue() == 21) {
                         isBlackjack = true;
-                        System.out.println("BLACKJACK!\n");
+                        System.out.println("\tBLACKJACK!\n");
                     } 
                 } else {
-                    System.out.println(dealer.showHand());
-                    System.out.println("Dealer STAYS!");
+                    System.out.println("\n" + dealer.showHand());
+                    System.out.println("\tDealer Hand Total: " + dealer.cardValue());
+                    System.out.println("\tDealer STAYS!");
                     break;
                 } 
-            } while (!isBlackjack);
+            } while (!isBlackjack); // Dealer turn loop
             
             if(playerBust) {
                 System.out.println("YOU LOSE! You lost $" + betAmount);
@@ -125,11 +131,14 @@ public class BlackJackDriver
                     System.out.println("YOU WON! You won $" + betAmount);
                     player1.addFunds(betAmount);
                 } 
-            }
+            } //Check winner
 
             player1.discardHand();
             dealer.discardHand();
             doubleDown = false;
+            isBlackjack = false;
+            playerBust = false;
+            dealerBust = false;
 
             if(player1.getFunds() < 1) {
                 System.out.println("YOU ARE OUT OF FUNDS!");
