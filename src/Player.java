@@ -24,7 +24,7 @@ public class Player {
     
     /** 
      * Returns the hand array of Cards
-     * @return the hand ArrayList<Card>
+     * @return ArrayList
      */
     public ArrayList<Card> getHand() {
         return this.hand;
