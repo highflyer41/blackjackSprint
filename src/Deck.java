@@ -5,12 +5,15 @@ import java.util.*;
  * @author GoalDiggers
  * @version 1.0.0
  */
+
 public class Deck
 {
     private ArrayList<Card> deck;
     private int topCardPos;
 
-    //Constructor
+    /**
+     * Class constructor
+     */
     public Deck()
     {
         this.deck = new ArrayList<>();
@@ -18,7 +21,9 @@ public class Deck
         shuffle();
     }
 
-    //generates cards using enums to fill the deck array
+    /**
+     * Generates cards using enums and fills the deck array with cards
+     */
     public void populateDeck() {
         for(Suits suit : Suits.values()){
             for(Values value : Values.values()) {
@@ -27,7 +32,9 @@ public class Deck
         }
     }
 
-    //shuffles the deck using random selection sort
+    /**
+     * Shuffles the deck using random selection sort
+     */
     public void shuffle()
     {
         Random r = new Random();
@@ -43,21 +50,42 @@ public class Deck
         topCardPos = 0;
     }
 
+    
+    /** 
+     * Removes a card from the deck array
+     * @param i index to specify which card is removed
+     */
     public void removeCard(int i) {
         this.deck.remove(i);
     }
 
+    
+    /** 
+     * Returns a card from the deck array
+     * @param i index to specify which card is returned
+     * @return Card
+     */
     public Card getCard(int i) {
         return this.deck.get(i);
     }
 
-    //gets the card from the top of the deck
+    
+    /** 
+     * Returns the card at the top of the deck and shifts
+     * index forward one position
+     * @return Card
+     */
     public Card getTopCard() {
         int index = topCardPos;
         topCardPos++;
         return this.getCard(index);
     }    
 
+    
+    /** 
+     * Returns a textual representation of a deck
+     * @return String
+     */
     public String toString()
     {
         String output = "";

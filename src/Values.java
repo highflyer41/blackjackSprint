@@ -1,3 +1,6 @@
+/**
+ * This class contains values which can be used to create a Card
+ */
 public enum Values {
     ACE,
     TWO,

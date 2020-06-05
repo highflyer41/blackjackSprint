@@ -12,41 +12,77 @@ public class Player {
     private int funds;
     private String name;
 
-    //Constructor
+    /**
+     * Class constructor
+     * @param name the name of the player
+     */
     public Player(String name) {
         this.name = name;
         funds = 200;
     }
 
+    
+    /** 
+     * Returns the hand array of Cards
+     * @return the hand ArrayList<Card>
+     */
     public ArrayList<Card> getHand() {
         return this.hand;
     }
 
+    
+    /** 
+     * Returns the funds of the player
+     * @return int
+     */
     public int getFunds() {
         return funds;
     }
 
+    
+    /** 
+     * Adds amount to the player funds
+     * @param num amount to be added to funds
+     */
     public void addFunds(int num) {
         this.funds += num;
     }
 
+    
+    /** 
+     * Removes amount from the player funds
+     * @param num amount to be removed
+     */
     public void removeFunds(int num) {
         this.funds -= num;
     }
 
+    
+    /** 
+     * Adds a card to the player hand array
+     * @param card card to be added to player's hand
+     */
     public void addCard(Card card) {
         this.hand.add(card);
     }
 
+    /**
+     * Clears the player hand
+     */
     public void discardHand() {
         this.hand.clear();
     }
 
-    //method to calculate the hand value and return it
+    
+    /** 
+     * Returns the total value of the cards in the player's hand
+     * @return int
+     */
     public int cardValue() {
         int total = 0;
         int totalAces = 0;
 
+        //loops through the hand array and adds to the total
         for(Card card : hand) {
             switch(card.getValue()) {
                 case ACE: totalAces += 1; break;
@@ -78,11 +114,21 @@ public class Player {
         
     }
 
+    
+    /** 
+     * Returns a specific card from the hand array
+     * @param i index to specify which card to return
+     * @return Card
+     */
     public Card getCard(int i) {
         return this.hand.get(i);
     }
 
-    //display hand method
+    
+    /** 
+     * Returns a textual representation of a hand of cards
+     * @return String
+     */
     public String showHand() {
         String output = "" + this.name + ":";
         //int i = 1;
