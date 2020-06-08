@@ -57,38 +57,45 @@ public class BlackJackDriver
                     //allows for double down only on the first turn
                     if(!doubleDown) {
                         doubleDown = true;
-                        System.out.print("\nWould you like to double down (y/n): ");
-                        char choice = in.next().charAt(0);
 
-                        if(choice == 'y' && betAmount <= (player1.getFunds()/2)) {
-                            betAmount *= 2; //amount is doubled
-                            System.out.println("DOUBLE DOWN! Bet amount is doubled. Player HITS!");
-                            player1.addCard(deck.getTopCard());
-                            System.out.println("\n" + player1.showHand());
-                            System.out.println("\tPlayer Hand Total Value: " + player1.cardValue());
+                        //only lets player double down if hand value is 9, 10, or 11
+                        if(player1.cardValue() >= 9 && player1.cardValue() <= 11) {
+                            System.out.print("\nWould you like to double down (y/n): ");
+                            char choice = in.next().charAt(0);
 
-                            //checks for bust, blackjack
-                            if(player1.cardValue() > 21) {
-                                playerBust = true;
-                                System.out.println("Player BUST!---------------------\n");
-                                break;
-                            } else if (player1.cardValue() == 21) {
-                                isBlackjack = true;
-                                System.out.println("\tBLACKJACK!\n");
+                            if(choice == 'y' && betAmount <= (player1.getFunds()/2)) {
+                                betAmount *= 2; //amount is doubled
+                                System.out.println("DOUBLE DOWN! Bet amount is doubled. Player HITS!");
+                                player1.addCard(deck.getTopCard());
+                                System.out.println("\n" + player1.showHand());
+                                System.out.println("\tPlayer Hand Total Value: " + player1.cardValue());
+
+                                //checks for bust, blackjack
+                                if(player1.cardValue() > 21) {
+                                    playerBust = true;
+                                    System.out.println("Player BUST!---------------------\n");
+                                    break;
+                                } else if (player1.cardValue() == 21) {
+                                    isBlackjack = true;
+                                    System.out.println("\tBLACKJACK!\n");
+                                }
+
+                                break; //breaks the loop after one and only one card is dealt
+
+                            } else if(choice == 'y' && betAmount > (player1.getFunds()/2)) {
+                                System.out.println("You do not have enough money to double down!");
+                                continue; //not enough funds, starts back at the top of player loop
+                            } else {
+                                continue; //player chooses not to double down, starts back at top of player loop 
                             }
 
-                            break; //breaks the loop after one and only one card is dealt
-
-                        } else if(choice == 'y' && betAmount > (player1.getFunds()/2)) {
-                            System.out.println("You do not have enough money to double down!");
-                            continue; //starts back at the top of player loop
                         } else {
-                            continue; //player chooses not to double down, starts back at top of player loop 
+                            continue; //player can't double double, restart loop
                         }
 
                     } else {
                         //allows player to hit until they stay
-                        System.out.print("Would you like to hit (y/n): ");
+                        System.out.print("\nWould you like to hit (y/n): ");
                         char choice = in.next().charAt(0);
 
                         if(choice == 'y') {
@@ -151,22 +158,22 @@ public class BlackJackDriver
             
             //checks for win conditions and add/remove bet amound from player funds
             if(playerBust) {
-                System.out.println("YOU LOSE! You lost $" + betAmount);
+                System.out.println("\nYOU LOSE! You lost $" + betAmount);
                 player1.removeFunds(betAmount);
             } else if(dealerBust) {
-                System.out.println("YOU WON! You won $" + betAmount);
+                System.out.println("\nYOU WON! You won $" + betAmount);
                 player1.addFunds(betAmount);
             } else if(fiveCard) {
-                System.out.println("YOU WON! You won $" + betAmount);
+                System.out.println("\nYOU WON! You won $" + betAmount);
                 player1.addFunds(betAmount);
             }else {
                 if(player1.cardValue() == dealer.cardValue()) {
-                    System.out.println("PUSH! (DRAW!)"); //tie game, no exchange of funds
+                    System.out.println("\nPUSH! (DRAW!)"); //tie game, no exchange of funds
                 } else if (player1.cardValue() < dealer.cardValue()) {
-                    System.out.println("YOU LOSE! You lost $" + betAmount);
+                    System.out.println("\nYOU LOSE! You lost $" + betAmount);
                     player1.removeFunds(betAmount);
                 } else {
-                    System.out.println("YOU WON! You won $" + betAmount);
+                    System.out.println("\nYOU WON! You won $" + betAmount);
                     player1.addFunds(betAmount);
                 } 
             } //Check winner
@@ -179,6 +186,9 @@ public class BlackJackDriver
             playerBust = false;
             dealerBust = false;
             fiveCard = false;
+
+            //shuffles the deck again
+            deck.shuffle();
 
             //checks if player can keep playing
             if(player1.getFunds() < 1) {
