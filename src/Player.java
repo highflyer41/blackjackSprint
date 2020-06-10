@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Player {
     
     private ArrayList<Card> hand = new ArrayList<>();
+    private ArrayList<Card> hand2 = new ArrayList<>();
     private int funds;
     private String name;
 
@@ -30,7 +31,10 @@ public class Player {
         return this.hand;
     }
 
-    
+    public ArrayList<Card> getHandTwo() {
+        return this.hand2;
+    }
+
     /** 
      * Returns the funds of the player
      * @return int
@@ -66,11 +70,16 @@ public class Player {
         this.hand.add(card);
     }
 
+    public void addCardToHandTwo(Card card) {
+        this.hand2.add(card);
+    }
+
     /**
-     * Clears the player hand
+     * Clears the player hands
      */
     public void discardHand() {
         this.hand.clear();
+        this.hand2.clear();
     }
 
     
@@ -114,6 +123,42 @@ public class Player {
         
     }
 
+    public int cardValueHandTwo() {
+        int total = 0;
+        int totalAces = 0;
+
+        //loops through the hand array and adds to the total
+        for(Card card : hand2) {
+            switch(card.getValue()) {
+                case ACE: totalAces += 1; break;
+                case TWO: total += 2; break;
+                case THREE: total += 3; break;
+                case FOUR: total += 4; break;
+                case FIVE: total += 5; break;
+                case SIX: total += 6; break; 
+                case SEVEN: total += 7; break;
+                case EIGHT: total += 8; break;
+                case NINE: total += 9; break;
+                case TEN: 
+                case JACK:
+                case QUEEN:
+                case KING: total += 10; break;
+            }
+        }
+
+        //calculate the value of aces bases on hand total
+        for(int i = 0; i < totalAces; i++) {
+            if(total > 10) {
+                total += 1;
+            } else {
+                total += 11;
+            }
+        }
+
+        return total;
+        
+    }
+
     
     /** 
      * Returns a specific card from the hand array
@@ -121,6 +166,10 @@ public class Player {
      * @return Card
      */
     public Card getCard(int i) {
+        return this.hand.get(i);
+    }
+
+    public Card getCardHandTwo(int i) {
         return this.hand.get(i);
     }
 
@@ -133,6 +182,18 @@ public class Player {
         String output = "" + this.name + ":";
         //int i = 1;
         for(Card ele : hand)
+        {
+            output += "\n\t" + ele;
+            //i++;
+        }
+        
+        return output;
+    }
+
+    public String showHandTwo() {
+        String output = "" + this.name + ":";
+        //int i = 1;
+        for(Card ele : hand2)
         {
             output += "\n\t" + ele;
             //i++;
